@@ -1,12 +1,12 @@
 // bring in inquirer
 const express = require('express');
 const inquirer = require("inquirer");
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 require('dotenv').config();
 const cTable = require('console.table');
-const { departmentQuestions, viewDepartments } = require('./lib/department');
-const { roleQuestions, viewRoles } = require('./lib/role');
-const { employeeQuestions, viewEmployees } = require('./lib/employee');
+const { departmentList, departmentQuestions, viewDepartments, addDepartment } = require('./lib/department');
+const { roleList, roleQuestions, viewRoles, addRole } = require('./lib/role');
+const { employeeQuestions, viewEmployees, addEmployee } = require('./lib/employee');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -14,79 +14,6 @@ const app = express();
 // Express middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-// const db = mysql.createConnection(
-//     {
-//         host: 'localhost',
-//         // MySQL username,
-//         user: DB_USER,
-//         // MySQL password
-//         password: DB_PASSWORD,
-//         database: DB_NAME
-//     },
-//     console.log(`Connected to the company_db database.`)
-// );
-
-const roleList = ['Salesperson', 'Lead Engineer', 'Software Engineer', 'Accoutant', 'Account Manager', 'Legal Team Lead', 'Lawyer'];
-const departmentList = ['Sales', 'Engineering', 'Finance', 'Legal'];
-
-// Department Prompt
-// const departmentQuestions = [
-//     {
-//         type: "input",
-//         message: "Enter department name:",
-//         name: "name",
-//     },
-// ];
-
-// Role Prompt 
-// const roleQuestions = [
-//     {
-//         type: "input",
-//         message: "Enter role name:",
-//         name: "name",
-//     },
-
-//     {
-//         type: "number",
-//         message: "Enter salary",
-//         name: "salary",
-//     },
-
-//     {
-//         type: "list",
-//         message: "Choose department:",
-//         name: "department",
-//         choices: departmentList,
-//     },
-// ];
-
-// Employee Prompt
-// const employeeQuestions = [
-//     {
-//         type: "input",
-//         message: "Enter employee's first name:",
-//         name: "firstName",
-//     },
-
-//     {
-//         type: "input",
-//         message: "Enter employee's last name:",
-//         name: "lastName",
-//     },
-
-//     {
-//         type: "list",
-//         message: "Enter employee's role",
-//         name: "role",
-//         choices: rolelist,
-//     },
-
-//     {
-//         type: "input",
-//         message: "Enter employee's manager:",
-//         name: "manager",
-//     },
-// ];
 
 // Prompt to add another employee
 const nextActionQuestion = [
@@ -106,24 +33,34 @@ const nextActionPrompt = () => {
             switch (answer.nextAction) {
                 case 'View all departments':
                     // code block
-                    viewDepartments();
+                    viewDepartments().then(() => nextActionPrompt());
                     break;
                 case 'View all employees':
                     // code block
-                    viewEmployees();
+                    viewEmployees().then(() => nextActionPrompt());
                     break;
                 case 'View all roles':
                     // code block
-                    viewRoles();
+                    viewRoles().then(() => nextActionPrompt());
                     break;
-                // case 'Add a department':
-                //     // code block
-                //     addDepartment();
-                //     break;
-                // case 'Add a role':
-                //     // code block
-                //     addRole();
-                //     break;
+                case 'Add a department':
+                    // code block
+                    inquirer
+                        .prompt(departmentQuestions)
+                        .then((answer) => {
+                            return addDepartment(answer.name);
+                        })
+                        .then(() => nextActionPrompt());
+                    break;
+                case 'Add a role':
+                    // code block
+                    inquirer
+                        .prompt(roleQuestions)
+                        .then((answer) => {
+                            return addRole(answer.name, answer.salary, answer.department);
+                        })
+                        .then(() => nextActionPrompt());
+                    break;
                 // case 'Add an employee':
                 //     // code block
                 //     addEmployee();
@@ -134,7 +71,9 @@ const nextActionPrompt = () => {
                 //     break;
             }
         })
-}
+};
+
+nextActionPrompt();
 
 // // returns manager prompt, waits for response, then returns prompt to add another employee
 
