@@ -1,10 +1,9 @@
-// bring in inquirer
 const express = require('express');
 const inquirer = require("inquirer");
-// const mysql = require('mysql2/promise');
+
 require('dotenv').config();
-// const cTable = require('console.table');
-const { viewDepartments, addDepartment, getDepartments } = require('./lib/department');
+
+const { viewDepartments, addDepartment } = require('./lib/department');
 const { viewRoles, addRole } = require('./lib/role');
 const { viewEmployees, addEmployee, updateRole } = require('./lib/employee');
 
@@ -25,77 +24,6 @@ const nextActionQuestion = [
     },
 ]
 
-// let departmentList;
-// let employeeList;
-// let roleList;
-
-// const roleQuestions = [
-//     {
-//         type: "input",
-//         message: "Enter role name:",
-//         name: "name",
-//     },
-
-//     {
-//         type: "number",
-//         message: "Enter salary",
-//         name: "salary",
-//     },
-
-//     {
-//         type: "list",
-//         message: "Choose department:",
-//         name: "department",
-//         choices: departmentList,
-//     },
-// ];
-
-// const updateQuestions = [
-//     {
-//         type: "list",
-//         message: "Choose employee whose role you need to update:",
-//         name: "employee",
-//         choices: employeeList,
-//     },
-
-//     {
-//         type: "list",
-//         message: "Choose employee's new role",
-//         name: "role",
-//         choices: roleList,
-//     },
-
-// ];
-
-// // const employeeQuestions = [
-//     {
-//         type: "input",
-//         message: "Enter employee's first name:",
-//         name: "firstName",
-//     },
-
-//     {
-//         type: "input",
-//         message: "Enter employee's last name:",
-//         name: "lastName",
-//     },
-
-//     {
-//         type: "list",
-//         message: "Enter employee's role",
-//         name: "role",
-//         choices: roleList,
-//     },
-
-//     {
-//         type: "list",
-//         message: "Enter employee's manager:",
-//         name: "manager",
-//         choices: employeeList,
-//     },
-// ];
-
-// Prompt to perform another action
 // const nextActionPrompt = () => {
 //     return inquirer
 //         .prompt(nextActionQuestion)
@@ -204,50 +132,40 @@ const nextActionQuestion = [
 //     }
 // };
 
+// Prompt to perform another action
+
 const nextActionPrompt = async () => {
     let answer = await inquirer.prompt(nextActionQuestion);
     switch (answer.nextAction) {
         case 'View all departments':
-            // code block
             await viewDepartments()
             nextActionPrompt();
             break;
         case 'View all employees':
-            // code block
             await viewEmployees()
             nextActionPrompt();
             break;
         case 'View all roles':
-            // code block
             await viewRoles()
             nextActionPrompt();
             break;
         case 'Add a department':
-            // code block
-            // let departmentAnswer = await inquirer.prompt(departmentQuestions);
             await addDepartment();
             nextActionPrompt();
             break;
         case 'Add a role':
-            // code block
-            // let roleAnswer = await inquirer.prompt(roleQuestions);
             await addRole();
             nextActionPrompt();
             break;
         case 'Add an employee':
-            // code block
-            // let employeeAnswer = inquirer.prompt(employeeQuestions);
             await addEmployee();
             nextActionPrompt();
             break;
         case 'Update an employee role':
-            // code block
-            // let updateAnswer = await inquirer.prompt(updateQuestions)
             await updateRole();
             nextActionPrompt();
             break;
         case 'Exit the application':
-            // code block
             process.exit(0);
     }
 };
