@@ -1,9 +1,9 @@
 // bring in inquirer
 const express = require('express');
 const inquirer = require("inquirer");
-const mysql = require('mysql2/promise');
+// const mysql = require('mysql2/promise');
 require('dotenv').config();
-const cTable = require('console.table');
+// const cTable = require('console.table');
 const { departmentList, departmentQuestions, viewDepartments, addDepartment } = require('./lib/department');
 const { roleList, roleQuestions, viewRoles, addRole } = require('./lib/role');
 const { employeeQuestions, viewEmployees, addEmployee } = require('./lib/employee');
@@ -15,7 +15,6 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Prompt to add another employee
 const nextActionQuestion = [
     {
         type: "list",
@@ -26,6 +25,7 @@ const nextActionQuestion = [
     },
 ]
 
+// Prompt to perform another action
 const nextActionPrompt = () => {
     return inquirer
         .prompt(nextActionQuestion)
@@ -61,10 +61,15 @@ const nextActionPrompt = () => {
                         })
                         .then(() => nextActionPrompt());
                     break;
-                // case 'Add an employee':
-                //     // code block
-                //     addEmployee();
-                //     break;
+                case 'Add an employee':
+                    // code block
+                    inquirer
+                        .prompt(employeeQuestions)
+                        .then((answer) => {
+                            return addEmployee(answer.firstName, answer.lastName, answer.role, answer.manager);
+                        })
+                        .then(() => nextActionPrompt());
+                    break;
                 // case 'Update an employee role':
                 //     // code block
                 //     updateRole();
