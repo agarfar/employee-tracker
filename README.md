@@ -30,6 +30,8 @@ Navigate to the repository in the terminal. Then, run 'node server.js.' The term
 Watch the video at the provided link to see an example README output, or view below: https://drive.google.com/file/d/1C7nmi2uzgPJ-Fzf84rPVC_Ttoc6ZC0j5/view
 
 
+https://user-images.githubusercontent.com/64799305/209068828-a66491de-56b9-4e00-b1fd-c956471a0aac.mp4
+
 
 ## License
 
