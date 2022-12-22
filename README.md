@@ -27,7 +27,7 @@ Before running the application, make sure you have installed the 'express' , 'in
 
 Navigate to the repository in the terminal. Then, run 'node server.js.' The terminal will print a list of possible options to choose from: 'View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', and 'Update an employee role'. Select an option and answer the following prompts. When done, you can select 'Exit the application.' to be taken back to the terminal. 
 
-Watch the video at the provided link to see an example README output, or view below: https://drive.google.com/file/d/1C7nmi2uzgPJ-Fzf84rPVC_Ttoc6ZC0j5/view
+Watch the video at the provided link to see an example of the application in use, or view below: https://drive.google.com/file/d/1C7nmi2uzgPJ-Fzf84rPVC_Ttoc6ZC0j5/view
 
 
 https://user-images.githubusercontent.com/64799305/209068828-a66491de-56b9-4e00-b1fd-c956471a0aac.mp4
